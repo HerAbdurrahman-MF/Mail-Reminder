@@ -1,0 +1,28 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH_DEMO_ID}
+            client-secret: ${OAUTH_DEMO_SECRET}
+            scope: openid,profile,email
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${TEST_MAIL}
+    password: ${TEST_MAIL_PASS}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
