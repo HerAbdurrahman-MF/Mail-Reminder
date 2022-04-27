@@ -18,6 +18,7 @@ class SchedulerService (private val scheduler: TaskScheduler) {
         val id = taskId.incrementAndGet()
         futures[id] = scheduledTaskFuture
 
+        println(futures[id])
         return id
     }
 }
