@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/mail")
-class TestMailSenderController(private val emailSenderService: EmailSenderService) {
+class TestMailSenderController(private val mailSenderService: MailSenderService) {
 
     @PostMapping("/send")
     fun sendMail(@RequestBody request: EmailRequest): ResponseEntity<Void> {
-        emailSenderService.sendEmail(
-            subject = request.subject!!,
-            targetEmail = request.targetEmail!!,
-            text = request.text!!
+        mailSenderService.sendEmail(
+            subject = request.subject,
+            targetEmail = request.targetEmail,
+            text = request.text
         )
 
         return ResponseEntity.noContent().build()
