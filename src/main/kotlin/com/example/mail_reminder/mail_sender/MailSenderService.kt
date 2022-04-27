@@ -5,7 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
 
 @Service
-class EmailSenderService(
+class MailSenderService(
     private val emailSender: JavaMailSender
 ) {
     fun sendEmail(
