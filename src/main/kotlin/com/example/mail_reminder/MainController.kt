@@ -103,8 +103,8 @@ class MainController(
                 description = payload.description,
                 cronTime = payload.cronTime
             )
-            val id = schedulerService.addTask(mailTask, payload.cronTime)
-            payload.job = id
+            val jobId = schedulerService.addTask(mailTask, payload.cronTime)
+            payload.job = jobId
 
             schedulerService.futures[job]?.cancel(false)
 
