@@ -48,12 +48,12 @@ class MainController(
         return reminder
     }
 
-    @GetMapping("/new/{email}")
+    @GetMapping("/{email}")
     fun getReminderByEmail(@PathVariable("email") email : String): ResponseEntity<List<Reminder>> {
         return ResponseEntity<List<Reminder>>(reminderService.getReminderByEmail(email), HttpStatus.OK)
     }
 
-    @GetMapping("/new/{email}/{id}")
+    @GetMapping("/{email}/{id}")
     fun getReminderById(@PathVariable("id") id : Int): ResponseEntity<Reminder> {
         val reminder = reminderService.getReminderById(id)
         return if (reminder != null) {
@@ -63,7 +63,7 @@ class MainController(
         }
     }
 
-    @PostMapping("/new/{email}/add")
+    @PostMapping("/{email}/add")
     fun createReminder(@RequestBody payload: Reminder): ResponseEntity<Reminder> {
         val mailTask = SendMailTask(
             mailSenderService = mailSenderService,
@@ -82,7 +82,7 @@ class MainController(
         }
     }
 
-    @DeleteMapping("/new/{email}/{id}/delete")
+    @DeleteMapping("/{email}/{id}/delete")
     fun deleteReminderById(@PathVariable("id") id: Int): ResponseEntity<Unit> {
         val (isSuccess, job) = reminderService.deleteReminderById(id)
         return if (isSuccess) {
@@ -93,7 +93,7 @@ class MainController(
         }
     }
 
-    @PutMapping("/new/{email}/{id}/update")
+    @PutMapping("/{email}/{id}/update")
     fun updateReminderById(@PathVariable("id") id: Int, @RequestBody payload: Reminder): ResponseEntity<Reminder> {
         val (reminder, job) = reminderService.updateReminderById(id, payload)
         return if (reminder != null) {
@@ -105,6 +105,7 @@ class MainController(
             )
             val jobId = schedulerService.addTask(mailTask, payload.cronTime)
             payload.job = jobId
+            reminderService.updateReminderById(id, payload)
 
             schedulerService.futures[job]?.cancel(false)
 
